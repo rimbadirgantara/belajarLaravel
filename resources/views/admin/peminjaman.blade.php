@@ -79,4 +79,6 @@
     </table>
   </div>
 </div>
+<script src="{{ $chart->cdn() }}"></script>
+    {{ $chart->script() }}
 @endsection
