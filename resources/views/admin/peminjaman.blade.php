@@ -16,10 +16,13 @@
 <div class="container">
   <div class="row">
     <div class="col-lg">
-      <form action="/admin/searchBuku" method="POST">
+      <div class="d-flex justify-content-center">
+        {!! $chart->container() !!}
+        </div>
+      <form action="/admin/peminjaman" method="GET">
         <div class="input-group mb-3">
           @csrf
-          <input type="text" class="form-control" placeholder="Cari Peminjam / buku" name="search">
+          <input type="text" class="form-control" placeholder="Cari Peminjam" name="search">
           <button class="btn btn-outline-secondary" type="button" id="button-addon2">Search</button>
         </div>
       </form>

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Charts\ChartPeminjaman;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\DB;
@@ -283,10 +284,14 @@ class AdminController extends Controller
         }
     }
 
-    public function peminjaman() {
+    public function peminjaman(Request $request, ChartPeminjaman $chartPeminjaman) {
+        $search = $request->input('search');
         $data = [
             'judul' => 'peminjaman',
-            'data' => Peminjaman::select("*")->paginate(5)
+            'data' => Peminjaman::where(function($query) use ($search) {
+                $query->where('id_user', 'LIKE', '%' . $search . '%');
+            })->paginate(5),
+            'chart' => $chartPeminjaman->build()
         ];
         return view('admin.peminjaman', $data); 
     }
