@@ -4,6 +4,7 @@
   <div class="row mt-3">
     <div class="col-lg">
       <a href="{{route('admin.tambahPeminjam')}}" class="btn btn-success">Tambah Peminjam</a>
+      <a href="{{route('admin.cetakPeminjam')}}" class="btn btn-primary">Cetak Peminjam</a>
     </div>
     <div class="col-lg-1"></div>
     <div class="col-lg-1">

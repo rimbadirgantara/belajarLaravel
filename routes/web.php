@@ -62,7 +62,7 @@ Route::group(['middleware' => ['auth', 'checklevel:admin']], function () {
     Route::get('/admin/editPeminjaman/{id}', [AdminController::class, 'editPeminjam'])->name('admin.editPeminjam');
     Route::post('/admin/postEditPeminjam/{id}', [AdminController::class, 'postEditPeminjaman']);
     Route::get('/admin/detailPeminjaman/{id_peminjam}/{id_user}/{id_buku}', [AdminController::class, 'detailPeminjaman'])->name('admin.detailPeminjaman');
-
+    Route::get('/admin/cetakPeminjam', [AdminController::class, 'cetakPeminjaman'])->name('admin.cetakPeminjam');
 
 });
 Route::group(['middleware' => ['auth', 'checklevel:user']], function () {

@@ -4,13 +4,14 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\DB;
+use Barryvdh\DomPDF\Facade\Pdf;    
 
 use App\Models\Berita;
 use App\Models\Dosen;
 use App\Models\User;
 use App\Models\Buku;
 use App\Models\Peminjaman;
-
 
 class AdminController extends Controller
 {
@@ -370,5 +371,15 @@ class AdminController extends Controller
             abort(404, 'Data tidak ditemukan !');
         }
         return view('admin.detailPeminjaman', $data); 
+    }
+
+    public function cetakPeminjaman() {
+        $data = DB::table('peminjaman')
+                    ->join('users', 'users.id', '=', 'peminjaman.id_user')
+                    ->join('buku', 'buku.id', '=', 'peminjaman.id_buku')
+                    ->select('peminjaman.*', 'users.name', 'buku.judul_buku')
+                    ->get();
+        $pdf = PDF::loadView('admin.cetakPeminjaman', ['data' => $data]);
+        return $pdf->stream();
     }
 }
