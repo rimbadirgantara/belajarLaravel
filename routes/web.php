@@ -56,6 +56,14 @@ Route::group(['middleware' => ['auth', 'checklevel:admin']], function () {
     Route::post('/admin/postEditBuku/{id}', [AdminController::class, 'postEditBuku'])->name('admin.editBuku');
 
     Route::get('/admin/peminjaman', [AdminController::class, 'peminjaman'])->name('admin.peminjaman');
+    Route::get('/admin/tambah-peminjaman', [AdminController::class, 'tambahPeminjaman'])->name('admin.tambahPeminjam');
+    Route::post('/admin/tambahPeminjam', [AdminController::class, 'postTambahPeminjaman']);
+    Route::get('/admin/deletePeminjaman/{id}', [AdminController::class, 'hapusPeminjam'])->name('admin.hapusPeminjam');
+    Route::get('/admin/editPeminjaman/{id}', [AdminController::class, 'editPeminjam'])->name('admin.editPeminjam');
+    Route::post('/admin/postEditPeminjam/{id}', [AdminController::class, 'postEditPeminjaman']);
+    Route::get('/admin/detailPeminjaman/{id_peminjam}/{id_user}/{id_buku}', [AdminController::class, 'detailPeminjaman'])->name('admin.detailPeminjaman');
+
+
 });
 Route::group(['middleware' => ['auth', 'checklevel:user']], function () {
     Route::get('/user', [UserController::class, 'index'])->name('user.home');

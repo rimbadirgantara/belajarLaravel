@@ -287,6 +287,88 @@ class AdminController extends Controller
             'judul' => 'peminjaman',
             'data' => Peminjaman::select("*")->paginate(5)
         ];
-        return view('admin.peminjaman', $data);
+        return view('admin.peminjaman', $data); 
+    }
+
+    public function tambahPeminjaman() {
+        $data = [
+            'judul' => 'Peminjaman',
+        ];
+        return view('admin.tambahPeminjam', $data);
+    }
+
+    public function postTambahPeminjaman(Request $request) {
+        $request->validate([
+            'idUser' => 'required',
+            'kodeBuku' => 'required',
+            'tanggalPeminjaman' => 'required',
+            'tanggalPengembalian' => 'required',
+        ]);
+
+        $pm = new Peminjaman;
+        $pm->id_user = $request->idUser;
+        $pm->id_buku = $request->kodeBuku;
+        $pm->tanggal_pinjam = $request->tanggalPeminjaman;
+        $pm->tanggal_kembali = $request->tanggalPengembalian;
+        $pm->status = 'Belum Dikembalikan';
+        if($pm->save()) {
+            return back()->with('success', 'Peminjam baru berhasil ditambahkan!');
+        } else{
+            return back()->with('failed', 'Peminjam gagal ditambahkan!');
+        }
+    }
+
+    public function hapusPeminjam($id) {
+        $data = Peminjaman::find($id);
+        if ($data->delete()) {
+            return back()->with('success', 'Peminjam Berhasil Di Hapus');
+        } else {
+            return back()->with('failed', 'Peminjam Gagal Di Hapus');
+        }
+    }
+
+    public function editPeminjam($id) {
+        $data = [
+            'judul' => 'peminjaman',
+            'data' => Peminjaman::find($id)
+        ];
+        return view('admin.editPeminjam', $data);
+    }
+
+    public function postEditPeminjaman(Request $request, $id) {
+        $request->validate([
+            'idUser' => 'required',
+            'kodeBuku' => 'required',
+            'tanggalPeminjaman' => 'required',
+            'tanggalPengembalian' => 'required',
+        ]);
+
+        $pm = Peminjaman::find($id);
+        $pm->id_user = $request->idUser;
+        $pm->id_buku = $request->kodeBuku;
+        $pm->tanggal_pinjam = $request->tanggalPeminjaman;
+        $pm->tanggal_kembali = $request->tanggalPengembalian;
+        $pm->status = $request->status;
+        if($pm->save()) {
+            return back()->with('success', 'Peminjam baru berhasil ditambahkan!');
+        } else{
+            return back()->with('failed', 'Peminjam gagal ditambahkan!');
+        }
+    }
+
+    public function detailPeminjaman($id_peminjaman, $id_user, $id_buku) {
+        $data = [
+            'judul' => 'peminjaman',
+            'detailPeminjaman' => Peminjaman::select('peminjaman.*', 'buku.*', 'users.*')
+                                    ->join('buku','peminjaman.id_buku', '=', 'buku.id')
+                                    ->join('users', 'peminjaman.id_user', '=', 'users.id')
+                                    ->where('peminjaman.id', $id_peminjaman)
+                                    ->where('buku.id', $id_buku)
+                                    ->where('users.id', $id_user)->first()
+        ];
+        if (!$data['detailPeminjaman']) {
+            abort(404, 'Data tidak ditemukan !');
+        }
+        return view('admin.detailPeminjaman', $data); 
     }
 }

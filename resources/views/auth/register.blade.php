@@ -42,7 +42,7 @@ n.css"
                 type="text" name="name"
                 class="form-control border border-secondary form-control-lg" required value="{{old('name')}}"
               />
-              <span class="text-danger">
+              <span class="text-danger"> 
                 @error('name')
                 {{ $message }}
                 @enderror

@@ -20,7 +20,7 @@ class LoginRegisterController extends Controller
 
     public function postLogin(Request $request) {
         $request->validate([
-            'email' => 'required|email:dns',
+            'email' => 'required|email',
             'password' => 'required|min:3'
         ]);
 
@@ -39,9 +39,9 @@ class LoginRegisterController extends Controller
     public function postRegister(Request $request) {
         $request->validate([
             'name' => 'required',
-            'email' => 'required|email:dns',
+            'email' => 'required|email',
             'jenisKelamin' => 'required',
-            'password' => 'required|min:3|max:20|confirmed'
+            'password' => 'required|min:8|confirmed'
         ]);
         
         $user = new User;

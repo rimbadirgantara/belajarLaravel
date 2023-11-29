@@ -3,7 +3,7 @@
 <div class="container mb-2">
   <div class="row mt-3">
     <div class="col-lg">
-      <a href="#" class="btn btn-success">Tambah Peminjam</a>
+      <a href="{{route('admin.tambahPeminjam')}}" class="btn btn-success">Tambah Peminjam</a>
     </div>
     <div class="col-lg-1"></div>
     <div class="col-lg-1">
@@ -39,34 +39,38 @@
     <table class="table table-hover">
       <thead>
         <tr>
-          <th scope="col">ID</th>
-          <th scope="col">Buku</th>
-          <th scope="col">Peminjam</th>
-          <th scope="col">Status</th>
+          <th scope="col">No</th>
+          <th scope="col">Nomor Anggota</th>
+          <th scope="col">Kode Buku</th>
+          <th scope="col">Tanggal Peminjaman</th>
+          <th scope="col">Tanggal Pengembalian</th>
+          <th scope="col">Status Peminjaman</th>
           <th scope="col">Aksi</th>
         </tr>
       </thead>
       <tbody>
-        <tr>
-          <th scope="row">1</th>
-          <td>Kekuatan Tidak Terbatas <br><small class="rounded p-1">Kode Buku: abcdeg</small></td>
-          <td>Rimba Dirgantara</td>
-          <td>Belum dikembalikan</td>
-          <td>
-            <a href="/admin/peminjaman/id/delete" class="btn btn-sm btn-danger">Hapus</a>
-            <a href="/admin/peminjaman/id/edit" class="btn btn-sm btn-warning">Edit</a>
-          </td>
-        </tr>
-        <tr>
-          <th scope="row">2</th>
-          <td>Ronald Read <br><small class="rounded p-1">Kode Buku: qwertt</small></td>
-          <td>Kesaktian Letnan Cicak</td>
-          <td>Sudah dikembalikan</td>
-          <td>
-            <a href="/admin/peminjaman/id/delete" class="btn btn-sm btn-danger">Hapus</a>
-            <a href="/admin/peminjaman/id/edit" class="btn btn-sm btn-warning">Edit</a>
-          </td>
-        </tr>
+        @foreach ($data as $item => $pm)
+          <tr>
+            <th scope="row">{{$item + $data->firstItem()}}</th>
+            <td>{{$pm->id_user}}</td>
+            <td>{{$pm->id_buku}}</td>
+            <td>{{$pm->tanggal_pinjam}}</td>
+            <td>{{$pm->tanggal_kembali}}</td>
+            <td><span
+              class="{{ $pm->status === 'Sudah Dikembalikan' ? 'fw-semibold text-success' : 'fw-semibold text-danger'
+              }}">
+              {{ $pm->status }}
+              </span></td>
+            <td>
+              <a class="btn btn-outline-primary" href="/admin/detailPeminjaman/{{$pm->id }}/{{ $pm->id_user }}/{{ $pm->id_buku}}">Detail</a>
+              <a class="btn btn-outline-warning" href="/admin/editPeminjaman/{{ $pm->id }}">Edit</a>
+              <a class="btn btn-outline-danger"
+              href="/admin/deletePeminjaman/{{
+              $pm->id }}">Delete</a>
+              </td>
+            </td>
+          </tr>
+        @endforeach
       </tbody>
     </table>
   </div>
